@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -6,12 +6,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
+
 public class OptionMenu {
 	Scanner menuInput = new Scanner(System.in);
 	DecimalFormat moneyFormat = new DecimalFormat("'$'###,##0.00");
 	HashMap<Integer, Account> data = new HashMap<Integer, Account>();
 
 	public void getLogin() throws IOException {
+		readAccountsFromFile();
 		boolean end = false;
 		int customerNumber = 0;
 		int pinNumber = 0;
@@ -61,6 +65,7 @@ public class OptionMenu {
 					break;
 				case 3:
 					end = true;
+					writeAccountsToFile();
 					break;
 				default:
 					System.out.println("\nInvalid Choice.");
@@ -68,6 +73,8 @@ public class OptionMenu {
 			} catch (InputMismatchException e) {
 				System.out.println("\nInvalid Choice.");
 				menuInput.next();
+			} catch (IOException e) {
+
 			}
 		}
 	}
@@ -139,6 +146,7 @@ public class OptionMenu {
 					acc.getTransferInput("Savings");
 					break;
 				case 5:
+
 					end = true;
 					break;
 				default:
@@ -212,4 +220,31 @@ public class OptionMenu {
 		menuInput.close();
 		System.exit(0);
 	}
+
+	public void writeAccountsToFile() throws IOException {
+		BufferedWriter bw = new BufferedWriter(new FileWriter("ATM/accountDataBase.txt"));
+		for (Account acc: data.values()
+			 ) {
+			int customerNumber = acc.getCustomerNumber();
+			int pin = acc.getPinNumber();
+			double cBalance = acc.getCheckingBalance();
+			double sBalance = acc.getSavingBalance();
+			bw.write(String.format("%s, %s, %s, %s\n",customerNumber,pin,cBalance,sBalance));
+		}
+		bw.close();
+	}
+	public void readAccountsFromFile() throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader("ATM/accountDataBase.txt"));
+		String line;
+		while((line = br.readLine()) != null){
+			String [] parts = line.split(", ");
+			int customerNumber = parseInt(parts[0]);
+			int pin = parseInt(parts[1]);
+			double cBalance = parseDouble(parts[2]);
+			double sBalance = parseDouble(parts[3]);
+			data.put(customerNumber,new Account(customerNumber,pin,cBalance,sBalance));
+		}
+		br.close();
+	}
+
 }
