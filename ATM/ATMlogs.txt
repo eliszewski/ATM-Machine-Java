@@ -1,0 +1,4 @@
+Date: Tue Nov 29 21:43:15 EST 2022 ; Customer Account Number: 5 ; Transaction Type: WITHDRAWCHECKING ; Amount Changed: $100.0
+Date: Tue Nov 29 21:45:22 EST 2022 ; Customer Account Number: 5 ; Transaction Type: DEPOSITCHECKING ; Amount Changed: $150.0
+Date: Tue Nov 29 22:01:56 EST 2022 ; Customer Account Number: 5 ; Transaction Type: DEPOSITCHECKING ; Amount Changed: $600.0
+Date: Tue Nov 29 22:05:04 EST 2022 ; Customer Account Number: 3 ; Transaction Type: DEPOSITCHECKING ; Amount Changed: $7000.0

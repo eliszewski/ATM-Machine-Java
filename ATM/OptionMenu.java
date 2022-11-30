@@ -15,7 +15,6 @@ public class OptionMenu {
 	HashMap<Integer, Account> data = new HashMap<Integer, Account>();
 
 	public void getLogin() throws IOException {
-		readAccountsFromFile();
 		boolean end = false;
 		int customerNumber = 0;
 		int pinNumber = 0;
@@ -51,7 +50,9 @@ public class OptionMenu {
 				System.out.println("\nSelect the account you want to access: ");
 				System.out.println(" Type 1 - Checkings Account");
 				System.out.println(" Type 2 - Savings Account");
-				System.out.println(" Type 3 - Exit");
+				System.out.println(" Type 3 - Checkings and Savings Balance");
+				System.out.println(" Type 4 - View Transaction History");
+				System.out.println(" Type 5 - Exit");
 				System.out.print("\nChoice: ");
 
 				int selection = menuInput.nextInt();
@@ -64,6 +65,11 @@ public class OptionMenu {
 					getSaving(acc);
 					break;
 				case 3:
+					getCheckingAndSavingsBalance(acc);
+					break;
+				case 4:
+					readTransactionHistoryFromFile(acc);
+				case 5:
 					end = true;
 					writeAccountsToFile();
 					break;
@@ -158,6 +164,10 @@ public class OptionMenu {
 			}
 		}
 	}
+	public void getCheckingAndSavingsBalance(Account account){
+		System.out.println("Checking Balance: " + account.getCheckingBalance()
+				+ " | Savings Balance: " + account.getSavingBalance());
+	}
 
 	public void createAccount() throws IOException {
 		int cst_no = 0;
@@ -190,6 +200,7 @@ public class OptionMenu {
 	}
 
 	public void mainMenu() throws IOException {
+		readAccountsFromFile();
 //		data.put(952141, new Account(952141, 191904, 1000, 5000));
 //		data.put(123, new Account(123, 123, 20000, 50000));
 		boolean end = false;
@@ -243,6 +254,15 @@ public class OptionMenu {
 			double cBalance = parseDouble(parts[2]);
 			double sBalance = parseDouble(parts[3]);
 			data.put(customerNumber,new Account(customerNumber,pin,cBalance,sBalance));
+		}
+		br.close();
+	}
+	public void readTransactionHistoryFromFile(Account account) throws IOException {
+		File file = new File(String.format("ATM/ACCOUNTLOGS/%s.txt", account.getCustomerNumber()));
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String line;
+		while ((line = br.readLine()) != null){
+			System.out.println(line);
 		}
 		br.close();
 	}

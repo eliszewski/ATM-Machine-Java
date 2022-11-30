@@ -1,0 +1,1 @@
+Date: Tue Nov 29 22:05:04 EST 2022 ; Customer Account Number: 3 ; Transaction Type: DEPOSITCHECKING ; Amount Changed: $7000.0
